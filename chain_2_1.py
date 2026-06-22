@@ -1,0 +1,25 @@
+from ast import Str
+
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnableLambda
+
+from llm_models import get_llm
+from prompts import WEB_SEARCH_PROMPT_TEMPLATE
+from research_engine_seq import NUM_SEARCH_QUERIES, assistant_instructions
+from utilities import to_obj
+
+NUM_SEARCH_QUERIES = 2
+
+web_searches_chain = (
+    RunnableLambda(
+        lambda x: {
+            "assistant_instructions": x["assistant_instructions"],
+            "num_search_queries": NUM_SEARCH_QUERIES,
+            "user_question": x["user_question"],
+        }
+    )
+    | WEB_SEARCH_PROMPT_TEMPLATE
+    | get_llm()
+    | StrOutputParser()
+    | to_obj
+)
