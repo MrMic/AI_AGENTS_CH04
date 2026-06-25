@@ -7,7 +7,7 @@ from web_scraping import web_scrape
 
 RESULT_TEXT_MAX_CHARACTERS = 10000
 
-search_result_text_and_summary_text = (
+search_result_text_and_summary_chain = (
     RunnableLambda(
         lambda x: {
             "search_result_text": web_scrape(url=x["result_url"])[
