@@ -1,6 +1,8 @@
 import json
+from typing import Any
 
-def to_obj(s):
+
+def to_obj(s) -> Any:
     """
     Converts JSON text from LLM -> Python object
     """

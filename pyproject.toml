@@ -17,4 +17,5 @@ dependencies = [
 [dependency-groups]
 dev = [
     "debugpy>=1.8.21",
+    "pyflakes>=3.4.0",
 ]

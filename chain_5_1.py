@@ -18,3 +18,18 @@ search_and_summarization_chain = (
         }
     )
 )
+
+web_research_chain = (
+    assistant_instructions_chain
+    | web_searches_chain
+    | search_and_summarization_chain.map()  # parallelize for each web search
+    | RunnableLambda(
+        lambda x: {
+            "research_summary": "\n\n".join([i["summary"] for i in x]),
+            "user_question": x[0]["user_question"] if len(x) > 0 else "",
+        }
+    )
+    | RESEARCH_REPORT_PROMPT_TEMPLATE
+    | get_llm()
+    | StrOutputParser()
+)
